@@ -4,7 +4,7 @@ import stripe
 
 
 def stripe_catcher(func):
-    """Catch Stripe expection and return a valid error response"""
+    """Catch Stripe exception and return a valid error response"""
 
     @wraps(func)
     def wrapper(*args, **kwargs):
