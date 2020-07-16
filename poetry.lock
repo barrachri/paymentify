@@ -102,6 +102,23 @@ version = "0.3.1"
 
 [[package]]
 category = "main"
+description = "The dynamic configurator for your Python Project"
+name = "dynaconf"
+optional = false
+python-versions = "*"
+version = "3.0.0"
+
+[package.extras]
+all = ["redis", "ruamel.yaml", "configobj", "hvac"]
+configobj = ["configobj"]
+ini = ["configobj"]
+redis = ["redis"]
+toml = ["toml"]
+vault = ["hvac"]
+yaml = ["ruamel.yaml"]
+
+[[package]]
+category = "main"
 description = "An unladen web framework for building APIs and app backends."
 name = "falcon"
 optional = false
@@ -565,7 +582,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "886f66f2f5a5099a8b3929467976133dc49863e1f93f444fb18bf66071f34338"
+content-hash = "63d945ec9d3d3eb04fedef99b4a943fd4b9cfbc866decfe86107d2947d7c3cc5"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -608,6 +625,10 @@ colorama = [
 distlib = [
     {file = "distlib-0.3.1-py2.py3-none-any.whl", hash = "sha256:8c09de2c67b3e7deef7184574fc060ab8a793e7adbb183d942c389c8b13c52fb"},
     {file = "distlib-0.3.1.zip", hash = "sha256:edf6116872c863e1aa9d5bb7cb5e05a022c519a4594dc703843343a9ddd9bff1"},
+]
+dynaconf = [
+    {file = "dynaconf-3.0.0-py2.py3-none-any.whl", hash = "sha256:000b64b9f58d33591fe2716b28b5177bffd5db6f11b9c52fbab580d7f655c343"},
+    {file = "dynaconf-3.0.0.tar.gz", hash = "sha256:b5fb3d1b07a78e6166228bb07b4dea2d101de55e1679d119403a2593e337e273"},
 ]
 falcon = [
     {file = "falcon-2.0.0-cp27-cp27m-manylinux1_i686.whl", hash = "sha256:733033ec80c896e30a43ab3e776856096836787197a44eb21022320a61311983"},
