@@ -1,0 +1,111 @@
+name: Test & Linters
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    env:
+      SHA: ${{ github.sha }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Load cache
+        id: valid-cache
+        uses: actions/cache@v2
+        with:
+          key: poetry-${{ hashFiles('poetry.lock') }}
+          path: |
+            /home/runner/.poetry
+            ${{ github.workspace }}/.venv
+            ${{ github.workspace }}/requirements.txt
+      - name: Install poetry
+        if: steps.valid-cache.outputs.cache-hit != 'true'
+        run: |
+          pip install -U pip setuptools wheel
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+      - name: Install dependencies
+        if: steps.valid-cache.outputs.cache-hit != 'true'
+        run: |
+          python3 -m venv .venv
+          ~/.poetry/bin/poetry install
+      - name: Export requirements.txt
+        if: steps.valid-cache.outputs.cache-hit != 'true'
+        run: |
+          ~/.poetry/bin/poetry export --without-hashes -f requirements.txt > requirements.txt
+
+  linters:
+    name: Linting
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    env:
+      SHA: ${{ github.sha }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Load cache
+        id: valid-cache
+        uses: actions/cache@v2
+        with:
+          key: poetry-${{ hashFiles('poetry.lock') }}
+          path: |
+            /home/runner/.poetry
+            ${{ github.workspace }}/.venv
+            ${{ github.workspace }}/requirements.txt
+      - name: Run Isort
+        run: |
+          ~/.poetry/bin/poetry run isort . --check
+      - name: Run Flake8
+        run: |
+          ~/.poetry/bin/poetry run flake8 paymentify tests
+      - name: Run Black
+        run: |
+          ~/.poetry/bin/poetry run black --check paymentify tests
+
+  tests:
+    name: Tests
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    env:
+      SHA: ${{ github.sha }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Load cache
+        id: valid-cache
+        uses: actions/cache@v2
+        with:
+          key: poetry-${{ hashFiles('poetry.lock') }}
+          path: |
+            /home/runner/.poetry
+            ${{ github.workspace }}/.venv
+            ${{ github.workspace }}/requirements.txt
+      - name: Run tests
+        run: |
+          ~/.poetry/bin/poetry run pytest -v
