@@ -11,5 +11,5 @@ class Card:
 
 @attr.s(auto_attribs=True)
 class Charge:
-    amount: int
     token: str
+    amount: int
