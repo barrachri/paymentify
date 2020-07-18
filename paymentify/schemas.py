@@ -8,16 +8,14 @@ CardResourceRequest = {
         "number": {
             "description": "The card number you want to tokenisem with no hyphens",
             "type": "string",
-            # digits 2 or 4 chars long
+            # a string between 12 and 19 chars
             "pattern": "^[\\d]{12,19}$",
         },
         "exp_month": {
             "description": "Month expiry of the card, either single or double digit",
             "type": "string",
-            # digits 2 or 4 chars long
+            # digits 1 or 2 chars long
             "pattern": "^[\\d]{1,2}$",
-            "minLength": 1,
-            "maxLength": 2,
         },
         "exp_year": {
             "description": "Year expiry of the card, either double or 4 digit",
@@ -47,11 +45,12 @@ SaleResourceSchema = {
         "token": {
             "description": "The token (credit card) you want to charge",
             "type": "string",
-            "minLength": 1,
+            "minLength": 5,
         },
         "amount": {
             "description": "The amount you want to charge, expressed as zero-decimal currency ($1.00 is equal to 100)",  # noqa: E501
             "type": "integer",
+            "minimum": 1,
         },
     },
     "additionalProperties": False,

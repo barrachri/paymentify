@@ -47,5 +47,5 @@ def create_charge(charge: Charge) -> Response:
             "status": charge.status,
             "created": charge.created,
         },
+        falcon.falcon.HTTP_201,
     )
-    falcon.falcon.HTTP_201,
