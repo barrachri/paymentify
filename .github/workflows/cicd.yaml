@@ -11,8 +11,6 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7]
-    env:
-      SHA: ${{ github.sha }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v2
@@ -51,12 +49,9 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7]
-    env:
-      SHA: ${{ github.sha }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v2
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -87,12 +82,9 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7]
-    env:
-      SHA: ${{ github.sha }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v2
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -109,3 +101,40 @@ jobs:
       - name: Run tests
         run: |
           ~/.poetry/bin/poetry run pytest -v
+
+  deploy:
+    name: Deploy
+    needs: tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7]
+    if: github.ref == 'refs/heads/master'
+    env:
+      STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+      GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+      SERVICE_NAME: paymentify
+      GCP_REGION: europe-west1
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${{ secrets.GCP_CICD_SA }}
+          project_id: ${{ secrets.GCP_PROJECT }}
+      - name: Build
+        run: |-
+          gcloud builds submit \
+            --quiet \
+            --tag "gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA}"
+      - name: Deploy
+        run: |-
+          gcloud run deploy "${SERVICE_NAME}" \
+            --quiet \
+            --region ${GCP_REGION} \
+            --image "gcr.io/${GCP_PROJECT}/${SERVICE_NAME}:${GITHUB_SHA}" \
+            --set-env-vars=DYNACONF_STRIPE_API_KEY=${STRIPE_API_KEY} \
+            --set-env-vars=GIT_HASH=${GITHUB_SHA} \
+            --platform "managed" \
+            --allow-unauthenticated
