@@ -42,7 +42,7 @@ class Api(falcon.API):
         super().__init__()
 
         # Set up STRIPE API key
-        stripe.api_key = settings.STRIPE_API_KEY
+        stripe.api_key = settings.get("STRIPE_API_KEY", "SET-YOUR-KEY")
 
 
 api = Api()
