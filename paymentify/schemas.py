@@ -6,13 +6,13 @@ CardResourceRequest = {
     "type": "object",
     "properties": {
         "number": {
-            "description": "The card number you want to tokenisem with no hyphens",  # noqa: E501
+            "description": "The card number you want to tokenisem with no hyphens",
             "type": "string",
             # digits 2 or 4 chars long
             "pattern": "^[\\d]{12,19}$",
         },
         "exp_month": {
-            "description": "Month expiry of the card, either single or double digit",  # noqa: E501
+            "description": "Month expiry of the card, either single or double digit",
             "type": "string",
             # digits 2 or 4 chars long
             "pattern": "^[\\d]{1,2}$",
