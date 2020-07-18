@@ -13,7 +13,7 @@ from paymentify.interfaces import create_charge, create_token
 class HealthcheckResource:
     def on_get(self, req, resp):
         """Health check endpoint"""
-        resp.media = {"version": os.environ.get("GIT_VERSION", None)}
+        resp.media = {"version": os.environ.get("GIT_HASH", None)}
         resp.status = falcon.HTTP_200
 
 
@@ -46,6 +46,6 @@ class Api(falcon.API):
 
 
 api = Api()
-api.add_route("/healthz", HealthcheckResource())
+api.add_route("/health", HealthcheckResource())
 api.add_route("/tokenise", CardResource())
 api.add_route("/sale", SaleResource())
