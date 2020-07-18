@@ -1,3 +1,12 @@
+[tool.black]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+src_paths = ["paymentify", "tests"]
+known_first_party = ["paymentify"]
+skip = [".venv"]
+
 [tool.poetry]
 name = "paymentify"
 version = "0.1.0"
