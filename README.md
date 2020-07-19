@@ -38,3 +38,9 @@ make run-container
 We use [pre-commit](https://pre-commit.com/) to run linters and checks on each commit.
 
 After you run `poetry install` you can run `poetry run pre-commit install` to install the git hook.
+
+## Endpoints
+
+- `/tokenise` (tokenise a card)
+- `/sale` (charge a card)
+- `/health` (healthcheck for the APIs)
