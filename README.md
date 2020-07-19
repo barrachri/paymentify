@@ -2,7 +2,7 @@
 
 ## How to run it locally
 
-With a `poetry` available on your path
+With `poetry` available on your path
 
 ```
 poetry install
