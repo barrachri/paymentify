@@ -82,6 +82,8 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7]
+    env:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v2
@@ -98,9 +100,10 @@ jobs:
             /home/runner/.poetry
             ${{ github.workspace }}/.venv
             ${{ github.workspace }}/requirements.txt
-      - name: Run tests
+      - name: Run tests and upload coverage
         run: |
-          ~/.poetry/bin/poetry run pytest -v
+          ~/.poetry/bin/poetry run pytest --cov=paymentify -v
+          ~/.poetry/bin/poetry run codecov
 
   deploy:
     name: Deploy
