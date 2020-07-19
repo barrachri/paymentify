@@ -28,6 +28,7 @@ def token():
 def charge():
     class MockedCharge:
         id = "ch_1H6HA0Lc6lT5RCtGK5QMjc8S"
+        currency = "eur"
         amount = 2000
         payment_method = "card_1H6C5eLc6lT5RCtGc9WIqjc5"
         paid = True
