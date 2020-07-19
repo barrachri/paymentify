@@ -1,5 +1,6 @@
 # Paymentify
 ![Test & Linters & Deploy](https://github.com/barrachri/paymentify/workflows/Test%20&%20Linters%20&%20Deploy/badge.svg)
+[![codecov](https://codecov.io/gh/barrachri/paymentify/branch/master/graph/badge.svg)](https://codecov.io/gh/barrachri/paymentify)
 
 ## How to run it locally
 
