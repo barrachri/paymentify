@@ -25,9 +25,10 @@ def test_post_sale_valid_body(client, charge, token, amount):
         mock_response.return_value = charge
         response = client.simulate_post("/sale", json=body)
 
-    mock_response.assert_called_with(source=token, amount=amount)
+    mock_response.assert_called_with(source=token, currency="eur", amount=amount)
     assert json.loads(response.content) == {
         "id": charge.id,
+        "currency": charge.currency,
         "amount": charge.amount,
         "payment_method": charge.payment_method,
         "paid": charge.paid,

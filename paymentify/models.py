@@ -13,3 +13,4 @@ class Card:
 class Charge:
     token: str
     amount: int
+    currency: str = "eur"
