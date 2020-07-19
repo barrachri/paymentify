@@ -37,7 +37,7 @@ def create_token(card: Card) -> Response:
 
 @stripe_catcher
 def create_charge(charge: Charge) -> Response:
-    charge = stripe.Charge.create(amount=charge.amount, source=charge.amount,)
+    charge = stripe.Charge.create(amount=charge.amount, source=charge.token)
     return (
         {
             "id": charge.id,

@@ -38,6 +38,14 @@ def test_post_tokenise_valid_body(client, token, number, exp_month, exp_year, cv
         mock_response.return_value = token
         response = client.simulate_post("/tokenise", json=body)
 
+    mock_response.assert_called_with(
+        card={
+            "number": number,
+            "exp_month": exp_month,
+            "exp_year": exp_year,
+            "cvc": cvc,
+        }
+    )
     assert json.loads(response.content) == {
         "token_id": token.id,
         "created": token.created,
