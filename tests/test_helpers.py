@@ -50,7 +50,6 @@ def test_stripe_catcher_e2e(client, token, amount):
         mock_response.side_effect = err
         response = client.simulate_post("/sale", json=body)
 
-    mock_response.assert_called_with(source=token, amount=amount)
     assert json.loads(response.content) == {
         'message': err_message,
         'type': err_type,
