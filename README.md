@@ -1,4 +1,5 @@
 # Paymentify
+![Test & Linters & Deploy](https://github.com/barrachri/paymentify/workflows/Test%20&%20Linters%20&%20Deploy/badge.svg)
 
 ## How to run it locally
 
